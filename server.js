@@ -50,13 +50,33 @@ beersRoute.get(function(req, res) {
 
 var beer = router.route('/beers/:id');
 beer.get(function(req, res) {
-  var beersRef = new firebase('https://beers-dm.firebaseio.com/beers');
+  var beersRef = new firebase('https://beers-dm.firebaseio.com/beers/'+req.params.id);
 
   beersRef.once('value', function(snapshot) {
     res.json(snapshot.val());
   }, function(errorObject) {
     res.send(errorObject);
   });
+});
+
+beer.put(function(req, res) {
+  var beersRef = new firebase('https://beers-dm.firebaseio.com/beers/'+req.params.id);
+
+  // Get beer
+  beersRef.once('value', function(snapshot) {
+    res.json(snapshot.val());
+  }, function(errorObject) {
+    res.send(errorObject);
+  });
+
+  beersRef.set({
+    name: req.body.name,
+    style: req.body.style
+  });
+});
+
+beer.delete(function(req, res) {
+  var beersRef = new firebase('https://beers-dm.firebaseio.com/beers/'+req.params.id);
 });
 
 app.use('/api', router);
