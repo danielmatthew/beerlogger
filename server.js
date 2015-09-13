@@ -1,85 +1,107 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var firebase = require('firebase');
-
+var mongoose = require('mongoose');
+var Beer = require('./models/beer');
 
 var app = express();
-var port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-var router = express.Router();
+mongoose.connect('mongodb://bl_user:qwerty123@ds037551.mongolab.com:37551/beerlocker');
 
-router.get('/', function(req, res) {
-  res.json({
-    'message': 'No beers'
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'Connection error:'));
+db.once('open', function() {
+  var router = express.Router();
+
+  router.get('/', function(req, res) {
+    res.json({
+      'message': 'No beers'
+    });
   });
-});
 
-var beersRoute = router.route('/beers');
+  // Add new beer
+  router.post('/beers', function(req, res) {
 
-beersRoute.post(function(req, res) {
-  var beersRef = new firebase('https://beers-dm.firebaseio.com/beers');
+    var beer = new Beer();
 
-  var newBeerRef = beersRef.push();
-  newBeerRef.set({
-    name: req.body.name,
-    style: req.body.style
-  }, function(error) {
-    if (error) {
-      res.send(err);
-    } else {
-      res.json({
-        'message': 'Saved successfully: ' + newBeerRef.key()
+    beer.name = req.body.name;
+    beer.style = req.body.style;
+    beer.brewer = req.body.brewer;
+    beer.liked = req.body.liked;
+
+    beer.save(function(err) {
+      if (err) {
+        res.send(err);
+      } else {
+        res.json({
+          'message': 'Added ' + beer._id + ' successfully',
+          data: beer
+        });
+      }
+    });
+  });
+
+  router.get('/beers', function(req, res) {
+    Beer.find(function(err, beers) {
+      if (err) {
+        res.send(err);
+      } else {
+        res.json(beers);
+      }
+    });
+  });
+
+  router.get('/beers/:id', function(req, res) {
+    Beer.findById(req.params.id, function(err, beer) {
+      if (err) {
+        res.send(err);
+      } else {
+        res.json(beer);
+      }
+    });
+  });
+
+  router.put('/beers/:id', function(req, res) {
+    Beer.findById(req.params.id, function(err, beer) {
+      if (err) {
+        res.send(err);
+      }
+
+      if (req.body.name) beer.name = req.body.name;
+      if (req.body.style) beer.style = req.body.style;
+      if (req.body.brewer) beer.brewer = req.body.brewer;
+      if (req.body.liked) beer.liked = req.body.liked;
+
+      beer.save(function(err) {
+        if (err) {
+          res.send(err);
+        } else {
+          res.json({
+            message: 'Beer updated',
+            data: beer
+          });
+        }
       });
-    }
-  });
-});
-
-beersRoute.get(function(req, res) {
-  var beersRef = new firebase('https://beers-dm.firebaseio.com/beers');
-
-  beersRef.once('value', function(snapshot) {
-    res.json(snapshot.val());
-  }, function(errorObject) {
-    res.send(errorObject);
-  });
-});
-
-var beer = router.route('/beers/:id');
-beer.get(function(req, res) {
-  var beersRef = new firebase('https://beers-dm.firebaseio.com/beers/'+req.params.id);
-
-  beersRef.once('value', function(snapshot) {
-    res.json(snapshot.val());
-  }, function(errorObject) {
-    res.send(errorObject);
-  });
-});
-
-beer.put(function(req, res) {
-  var beersRef = new firebase('https://beers-dm.firebaseio.com/beers/'+req.params.id);
-
-  // Get beer
-  beersRef.once('value', function(snapshot) {
-    res.json(snapshot.val());
-  }, function(errorObject) {
-    res.send(errorObject);
+    });
   });
 
-  beersRef.set({
-    name: req.body.name,
-    style: req.body.style
+  router.delete('/beers/:id', function(req, res) {
+    Beer.findByIdAndRemove(req.params.id, function(err) {
+      if (err) {
+        res.send(err);
+      } else {
+        res.json({
+          message: 'Beer deleted'
+        });
+      }
+    });
   });
+
+  // Register all routes with /api
+  app.use('/api', router);
+
+  app.listen(3000);
 });
-
-beer.delete(function(req, res) {
-  var beersRef = new firebase('https://beers-dm.firebaseio.com/beers/'+req.params.id);
-});
-
-app.use('/api', router);
-
-app.listen(port);
-console.log('Beers on port ' + port);
