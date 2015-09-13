@@ -91,7 +91,7 @@ module.exports = function(app, express) {
   // frontend routes =====================================
   router.route('*')
     .get(function(req, res) {
-      res.text('Hello');
+      res.text('lol');
     });
 
   return router;

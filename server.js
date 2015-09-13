@@ -30,8 +30,10 @@ db.once('open', function() {
   var apiRoutes = require('./routes')(app, express);
   app.use('/api', apiRoutes);
 
+  app.get('*', function(req, res) {
+    res.sendFile('index.html');
+  });
+
   // start app ==========================================
   app.listen(port);
 });
-
-exports = module.exports = app;
