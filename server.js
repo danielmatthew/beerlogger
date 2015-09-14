@@ -5,6 +5,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
+var path = require('path');
 
 // configuration ========================================
 var db = require('./config');
@@ -30,12 +31,14 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
 db.once('open', function() {
 
+  app.use(express.static(__dirname + '/src/public'));
+
   // routes =============================================
   var apiRoutes = require('./routes')(app, express);
   app.use('/api', apiRoutes);
 
   app.get('*', function(req, res) {
-    res.sendFile('./public/views/index.html');
+    res.sendFile(path.join(__dirname + '/src/public/views/index.html'));
   });
   // start app ==========================================
   app.listen(port);
