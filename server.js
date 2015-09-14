@@ -3,6 +3,7 @@
 // modules ==============================================
 var express = require('express');
 var bodyParser = require('body-parser');
+var morgan = require('morgan');
 var mongoose = require('mongoose');
 
 // configuration ========================================
@@ -22,6 +23,9 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+// use morgan to log requests to console
+app.use(morgan('dev'));
+
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
 db.once('open', function() {
@@ -31,9 +35,8 @@ db.once('open', function() {
   app.use('/api', apiRoutes);
 
   app.get('*', function(req, res) {
-    res.sendFile('index.html');
+    res.sendFile('./public/views/index.html');
   });
-
   // start app ==========================================
   app.listen(port);
 });

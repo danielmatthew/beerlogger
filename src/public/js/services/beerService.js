@@ -8,5 +8,5 @@ angular.module('BeerService', [])
       delete: function(id) {
         return $http.delete('/api/beers/' + id);
       }
-    }
+    };
   }]);

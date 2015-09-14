@@ -89,10 +89,10 @@ module.exports = function(app, express) {
 
 
   // frontend routes =====================================
-  router.route('*')
-    .get(function(req, res) {
-      res.text('lol');
-    });
+  // router.route('*')
+  //   .get(function(req, res) {
+  //     res.text('lol');
+  //   });
 
   return router;
 };
