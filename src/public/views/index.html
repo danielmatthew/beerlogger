@@ -5,15 +5,25 @@
     <meta charset="utf-8">
     <base href="/">
 
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
 
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.js"></script>
+
+    <script src="src/public/js/controllers/mainController.js"></script>
+    <script src="src/public/js/services/beerService.js"></script>
+    <script src="src/public/routes.js"></script>
+    <script src="src/public/app.js"></script>
   </head>
-  <body ng-app="beerApp" ng-controller="MainController">
+  <body ng-app="beerApp">
     <nav class="navbar navbar-inverse">
       <div class="navbar-header">
         <a class="navbar-brand" href="/">Beerlogger</a>
       </div>
     </nav>
-    
-    <div ng-view></div>
+
+    <main class="container" role="main">
+      <div ng-view></div>
+    </main>
   </body>
 </html>

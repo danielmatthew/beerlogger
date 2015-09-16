@@ -1,1 +1,5 @@
-angular.module('beerApp', ['ngRoute', 'routes']);
+angular.module('beerApp', [
+  'routes',
+  'mainCtrl',
+  'BeerService'
+]);
