@@ -9,14 +9,9 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.js"></script>
-
-    <script src="src/public/js/controllers/mainController.js"></script>
-    <script src="src/public/js/services/beerService.js"></script>
-    <script src="src/public/routes.js"></script>
-    <script src="src/public/app.js"></script>
   </head>
   <body ng-app="beerApp">
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar-static-top navbar-inverse">
       <div class="navbar-header">
         <a class="navbar-brand" href="/">Beerlogger</a>
       </div>
@@ -26,4 +21,6 @@
       <div ng-view></div>
     </main>
   </body>
+
+  <script src="src/public/app.js"></script>
 </html>
