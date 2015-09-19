@@ -24,6 +24,7 @@
     "mongoose": "4.1.6"
   },
   "devDependencies": {
+    "bower": "^1.5.2",
     "chai": "*",
     "mocha": "*",
     "morgan": "^1.6.1"
