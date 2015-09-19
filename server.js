@@ -13,9 +13,6 @@ var port = process.env.PORT || 3000;
 
 var app = express();
 
-// connect to db
-mongoose.connect(db.url);
-
 // parse application/json
 app.use(bodyParser.json());
 
@@ -27,19 +24,30 @@ app.use(bodyParser.urlencoded({
 // use morgan to log requests to console
 app.use(morgan('dev'));
 
+app.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,\Authorization');
+  next();
+});
+
+// connect to db
+mongoose.connect(db.url);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
 db.once('open', function() {
 
-  app.use(express.static(__dirname + '/src/public'));
+  // app.use(express.compress());
+  app.use(express.static(__dirname + '/public_html'));
 
   // routes =============================================
   var apiRoutes = require('./routes')(app, express);
   app.use('/api', apiRoutes);
 
   app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname + '/src/public/views/index.html'));
+    res.sendFile(path.join(__dirname + '/public_html/app/views/index.html'));
   });
+
   // start app ==========================================
   app.listen(port);
 });
