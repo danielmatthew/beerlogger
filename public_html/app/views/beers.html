@@ -1,0 +1,11 @@
+<div ng-controller="BeerCtrl as beer" class="table-responsive">
+  <table class="table table-striped">
+    <tr ng-repeat="i in beer.beers">
+      <td>{{i.date}}</td>
+      <td>{{i.name}}</td>
+      <td>{{i.style}}</td>
+      <td>{{i.brewer}}</td>
+      <td>{{i.liked}}</td>
+    </tr>
+  </table>
+</div>
