@@ -20,6 +20,7 @@ module.exports = function(app, express) {
       beer.style = req.body.style;
       beer.brewer = req.body.brewer;
       beer.liked = req.body.liked;
+      beer.submitted = new Date().getTime();
 
       beer.save(function(err) {
         if (err) {

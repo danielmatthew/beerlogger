@@ -9,14 +9,38 @@ angular.module('beerApp', ['ngRoute', 'beers.controllers'])
   });
 
 angular.module('beers.controllers', ['beers.services'])
-  .controller('BeerCtrl', function($scope, Beer) {
-    var that = this;
-    this.beers = {};
-    // $scope.beers = {};
+  .controller('BeerController', function($scope, Beer) {
+    $scope.numBeers = null;
+    $scope.beers = {};
+    $scope.formData = {};
 
     Beer.all().success(function(data) {
-      that.beers = data.reverse();
+      $scope.beers = data.reverse();
+      $scope.numBeers = Object.keys($scope.beers).length;
     });
+
+    $scope.addBeer = function() {
+      if ($scope.formData) {
+        Beer.add($scope.formData)
+          .success(function(data) {
+            $scope.numBeers++;
+            $scope.message = data.message;
+            $scope.beers.push($scope.formData);
+            $scope.formData = {};
+          });
+      }
+    };
+
+    $scope.deleteBeer = function(id) {
+      Beer.delete(id)
+        .success(function(data) {
+          Beer.all()
+            .success(function(data) {
+              $scope.beers = data.reverse();
+              $scope.numBeers--;
+            });
+        });
+    };
   });
 
 angular.module('beers.services', [])
@@ -25,6 +49,10 @@ angular.module('beers.services', [])
 
     o.all = function() {
       return $http.get('/api/beers');
+    };
+
+    o.add = function(data) {
+      return $http.post('/api/beers', data);
     };
 
     o.get = function(id) {
