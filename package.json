@@ -20,12 +20,12 @@
     "body-parser": "1.13.3",
     "express": "4.13.3",
     "firebase": "^2.2.9",
-    "mongoose": "4.1.6"
+    "mongoose": "4.1.6",
+    "morgan": "^1.6.1"
   },
   "devDependencies": {
     "bower": "^1.5.2",
     "chai": "*",
-    "mocha": "*",
-    "morgan": "^1.6.1"
+    "mocha": "*"
   }
 }
