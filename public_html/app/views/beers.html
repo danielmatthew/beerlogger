@@ -35,8 +35,8 @@
           <th>Delete</th>
         </tr>
       </thead>
-      <tr ng-repeat="i in beers">
-        <td>{{i.date}}</td>
+      <tr ng-repeat="i in beers | orderBy:'-date'">
+        <td>{{i.date | date}}</td>
         <td>{{i.name}}</td>
         <td>{{i.style}}</td>
         <td>{{i.brewer}}</td>

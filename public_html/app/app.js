@@ -15,7 +15,7 @@ angular.module('beers.controllers', ['beers.services'])
     $scope.formData = {};
 
     Beer.all().success(function(data) {
-      $scope.beers = data.reverse();
+      $scope.beers = data;
       $scope.numBeers = Object.keys($scope.beers).length;
     });
 
@@ -25,6 +25,7 @@ angular.module('beers.controllers', ['beers.services'])
           .success(function(data) {
             $scope.numBeers++;
             $scope.message = data.message;
+            // Fake it - not worth making another call to the server, right?
             $scope.beers.push($scope.formData);
             $scope.formData = {};
           });
@@ -36,7 +37,8 @@ angular.module('beers.controllers', ['beers.services'])
         .success(function(data) {
           Beer.all()
             .success(function(data) {
-              $scope.beers = data.reverse();
+              $scope.beers = data;
+              $scope.message = data.message;
               $scope.numBeers--;
             });
         });
