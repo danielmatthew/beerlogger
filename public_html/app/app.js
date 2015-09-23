@@ -26,6 +26,7 @@ angular.module('beers.controllers', ['beers.services'])
             $scope.numBeers++;
             $scope.message = data.message;
             // Fake it - not worth making another call to the server, right?
+            $scope.formData.date = Date.now();
             $scope.beers.push($scope.formData);
             $scope.formData = {};
           });
