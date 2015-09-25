@@ -19,6 +19,13 @@
         <label for="brewer">Brewery</label>
         <input class="form-control" id="brewer" type="text" ng-model="formData.brewer">
       </div>
+      <div class="form-group">
+        <label for="liked">Drink again?</label>
+        <select>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </div>
       <button class="btn btn-primary" type="submit">Add Beer</button>
     </form>
   </div>
@@ -32,6 +39,7 @@
           <th>Style</th>
           <th>Brewery</th>
           <th>Drink again?</th>
+          <th>Edit</th>
           <th>Delete</th>
         </tr>
       </thead>
@@ -41,6 +49,7 @@
         <td>{{i.style}}</td>
         <td>{{i.brewer}}</td>
         <td>{{i.liked}}</td>
+        <td><button class="btn" ng-click="editBeer(i._id)">Edit</button></td>
         <td><button class="btn btn-danger" ng-click="deleteBeer(i._id)">Delete</button></td>
       </tr>
     </table>
