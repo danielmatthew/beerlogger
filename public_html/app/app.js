@@ -54,6 +54,19 @@ angular.module('beers.controllers', ['beers.services'])
       .success(function(data) {
         $scope.beer = data;
       });
+
+    $scope.updateBeer = function() {
+      Beer.put($routeParams._id, $scope.beer)
+        .success(function(data) {
+          $scope.message = data.message;
+        });
+    };
+
+    // $scope.updateBeer = function($routeParams._id, $scope.beer) {
+    //   .success(function(data) {
+    //     $scope.message = data.message;
+    //   });
+    // };
   });
 
 angular.module('beers.services', [])

@@ -63,6 +63,7 @@ module.exports = function(app, express) {
         if (req.body.style) beer.style = req.body.style;
         if (req.body.brewer) beer.brewer = req.body.brewer;
         if (req.body.liked) beer.liked = req.body.liked;
+        if (req.body.date) beer.date = req.body.date;
 
         beer.save(function(err) {
           if (err) {
