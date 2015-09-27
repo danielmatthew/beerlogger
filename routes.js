@@ -11,10 +11,12 @@ module.exports = function(app, express) {
     });
   });
 
+  // /beers ==============================================
   router.route('/beers')
     .post(function(req, res) {
 
       var beer = new Beer();
+      var pageLimit = 10;
 
       beer.name = req.body.name;
       beer.style = req.body.style;
@@ -34,15 +36,19 @@ module.exports = function(app, express) {
       });
     })
     .get(function(req, res) {
-      Beer.find(function(err, beers) {
-        if (err) {
-          res.send(err);
-        } else {
-          res.json(beers);
-        }
-      });
+      Beer
+        .find(function(err, beers) {
+          if (err) {
+            res.send(err);
+          } else {
+            res.json(beers);
+          }
+        })
+        .sort({'date': -1})
+        .limit(10);
     });
 
+  // /beers/xxx ================================================================
   router.route('/beers/:id')
     .get(function(req, res) {
       Beer.findById(req.params.id, function(err, beer) {
