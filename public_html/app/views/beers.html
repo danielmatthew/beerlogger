@@ -49,7 +49,7 @@
         <td>{{i.style}}</td>
         <td>{{i.brewer}}</td>
         <td>{{i.liked}}</td>
-        <td><button class="btn" ng-click="editBeer(i._id)">Edit</button></td>
+        <td><a class="btn btn-default" ng-href="/{{i._id}}" role="button">Edit</a></td>
         <td><button class="btn btn-danger" ng-click="deleteBeer(i._id)">Delete</button></td>
       </tr>
     </table>

@@ -3,6 +3,9 @@ angular.module('beerApp', ['ngRoute', 'beers.controllers'])
     $routeProvider
       .when('/', {
         templateUrl: 'app/views/beers.html',
+      })
+      .when('/:_id', {
+        templateUrl: 'app/views/editBeer.html'
       });
 
     $locationProvider.html5Mode(true);
@@ -42,6 +45,15 @@ angular.module('beers.controllers', ['beers.services'])
             });
         });
     };
+  })
+
+  .controller('EditBeerController', function($scope, $routeParams, Beer) {
+    $scope.beer = null;
+
+    Beer.get($routeParams._id)
+      .success(function(data) {
+        $scope.beer = data;
+      });
   });
 
 angular.module('beers.services', [])
@@ -57,7 +69,11 @@ angular.module('beers.services', [])
     };
 
     o.get = function(id) {
-      return $http.get('/api/beers' + id);
+      return $http.get('/api/beers/' + id);
+    };
+
+    o.put = function(id, data) {
+      return $http.put('/api/beers/' + id, data);
     };
 
     o.delete = function(id) {
