@@ -49,9 +49,13 @@
         <td>{{i.style}}</td>
         <td>{{i.brewer}}</td>
         <td>{{i.liked}}</td>
-        <td><a class="btn btn-default" ng-href="/{{i._id}}" role="button">Edit</a></td>
+        <td>
+          <a ng-if="i._id" class="btn btn-default" ng-href="/{{i._id}}" role="button">Edit</a>
+        </td>
         <td><button class="btn btn-danger" ng-click="deleteBeer(i._id)">Delete</button></td>
       </tr>
     </table>
   </div>
+
+  <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
 </div>

@@ -11,15 +11,26 @@ angular.module('beerApp', ['ngRoute', 'beers.controllers'])
     $locationProvider.html5Mode(true);
   });
 
-angular.module('beers.controllers', ['beers.services'])
+angular.module('beers.controllers', ['beers.services', 'ui.bootstrap'])
   .controller('BeerController', function($scope, Beer) {
+    $scope.totalItems = null;
+    $scope.currentPage = 1;
+
+    $scope.setPage = function(pageNo) {
+      $scope.currentPage = pageNo;
+    };
+
+    $scope.pageChanged = function() {
+      console.log('Page changed to:' + $scope.currentPage);
+    };
+
     $scope.numBeers = null;
     $scope.beers = {};
     $scope.formData = {};
 
     Beer.all().success(function(data) {
       $scope.beers = data;
-      $scope.numBeers = Object.keys($scope.beers).length;
+      $scope.totalItems = $scope.numBeers = Object.keys($scope.beers).length;
     });
 
     $scope.addBeer = function() {
