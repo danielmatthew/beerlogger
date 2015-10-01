@@ -43,7 +43,7 @@
           <th>Delete</th>
         </tr>
       </thead>
-      <tr ng-repeat="i in beers | orderBy:'-date'">
+      <tr ng-repeat="i in paginatedBeers | orderBy:'-date'">
         <td>{{i.date | date}}</td>
         <td>{{i.name}}</td>
         <td>{{i.style}}</td>

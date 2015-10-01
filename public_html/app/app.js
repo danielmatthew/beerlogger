@@ -15,6 +15,7 @@ angular.module('beers.controllers', ['beers.services', 'ui.bootstrap'])
   .controller('BeerController', function($scope, Beer) {
     $scope.totalItems = null;
     $scope.currentPage = 1;
+    $scope.itemsPerPage = 10;
 
     $scope.setPage = function(pageNo) {
       $scope.currentPage = pageNo;
@@ -26,10 +27,19 @@ angular.module('beers.controllers', ['beers.services', 'ui.bootstrap'])
 
     $scope.numBeers = null;
     $scope.beers = {};
+    $scope.filteredBeers = {};
     $scope.formData = {};
 
     Beer.all().success(function(data) {
       $scope.beers = data;
+
+      $scope.$watch('currentPage + itemsPerPage', function() {
+        var begin = (($scope.currentPage - 1) * $scope.itemsPerPage),
+            end = begin + $scope.itemsPerPage;
+
+        $scope.paginatedBeers = $scope.beers.slice(begin, end);
+      });
+
       $scope.totalItems = $scope.numBeers = Object.keys($scope.beers).length;
     });
 

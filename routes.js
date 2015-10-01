@@ -16,7 +16,6 @@ module.exports = function(app, express) {
     .post(function(req, res) {
 
       var beer = new Beer();
-      var pageLimit = 10;
 
       beer.name = req.body.name;
       beer.style = req.body.style;
@@ -44,8 +43,7 @@ module.exports = function(app, express) {
             res.json(beers);
           }
         })
-        .sort({'date': -1})
-        .limit(10);
+        .sort({'date': -1});
     });
 
   // /beers/xxx ================================================================
