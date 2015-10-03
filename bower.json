@@ -2,8 +2,9 @@
   "name": "beerlogger",
   "version": "1.0.0",
   "dependencies": {
-    "bootstrap": "latest",
     "angular": "latest",
-    "angular-route": "latest"
+    "angular-moment": "~0.10.3",
+    "angular-route": "latest",
+    "bootstrap": "latest"
   }
 }
