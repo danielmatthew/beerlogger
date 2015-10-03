@@ -6,7 +6,7 @@
     {{message}}
   </div>
   <div class="row">
-    <form class="col-xs-12" ng-submit="addBeer(beer)" novalidate>
+    <form class="col-xs-12 well" ng-submit="addBeer(beer)" novalidate>
       <div class="form-group">
         <label for="name">Name</label>
         <input class="form-control" id="name" type="text" ng-model="formData.name">
@@ -56,6 +56,7 @@
       </tr>
     </table>
   </div>
-
-  <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+  <div class="text-center">
+    <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" direction-links="false"></pagination>
+  </div>
 </div>
