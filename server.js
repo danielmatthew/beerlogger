@@ -4,6 +4,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
+var compression = require('compression');
 var mongoose = require('mongoose');
 var path = require('path');
 
@@ -20,6 +21,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+// gzip requests that pass through middleware
+app.use(compression());
 
 // use morgan to log requests to console
 app.use(morgan('dev'));
