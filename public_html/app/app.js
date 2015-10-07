@@ -27,7 +27,6 @@ angular.module('beers.controllers', ['beers.services', 'ui.bootstrap'])
 
     $scope.numBeers = null;
     $scope.beers = {};
-    $scope.filteredBeers = {};
     $scope.formData = {};
 
     Beer.all().success(function(data) {
@@ -49,7 +48,7 @@ angular.module('beers.controllers', ['beers.services', 'ui.bootstrap'])
           .success(function(data) {
             $scope.numBeers++;
             $scope.message = data.message;
-            $scope.beers.push(data.data);
+            $scope.paginatedBeers.push(data.data);
             $scope.formData = {};
           });
       }
@@ -60,7 +59,7 @@ angular.module('beers.controllers', ['beers.services', 'ui.bootstrap'])
         .success(function(data) {
           Beer.all()
             .success(function(data) {
-              $scope.beers = data;
+              $scope.paginatedBeers = data;
               $scope.message = data.message;
               $scope.numBeers--;
             });
