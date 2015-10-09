@@ -1,5 +1,5 @@
 angular.module('beerApp', ['ngRoute', 'beers.controllers', 'angularMoment'])
-  .config(function($routeProvider, $locationProvider) {
+  .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'app/views/beers.html',
@@ -9,10 +9,10 @@ angular.module('beerApp', ['ngRoute', 'beers.controllers', 'angularMoment'])
       });
 
     $locationProvider.html5Mode(true);
-  });
+  }]);
 
 angular.module('beers.controllers', ['beers.services', 'ui.bootstrap'])
-  .controller('BeerController', function($scope, Beer) {
+  .controller('BeerController', ['$scope', 'Beer', function($scope, Beer) {
     $scope.totalItems = null;
     $scope.currentPage = 1;
     $scope.itemsPerPage = 10;
@@ -65,9 +65,9 @@ angular.module('beers.controllers', ['beers.services', 'ui.bootstrap'])
             });
         });
     };
-  })
+  }])
 
-  .controller('EditBeerController', function($scope, $routeParams, Beer) {
+  .controller('EditBeerController', ['$scope', '$routeParams', 'Beer', function($scope, $routeParams, Beer) {
     $scope.beer = null;
 
     Beer.get($routeParams._id)
@@ -81,10 +81,10 @@ angular.module('beers.controllers', ['beers.services', 'ui.bootstrap'])
           $scope.message = data.message;
         });
     };
-  });
+  }]);
 
 angular.module('beers.services', [])
-  .factory('Beer', function($http) {
+  .factory('Beer', ['$http', function($http) {
     var o = {};
 
     o.all = function() {
@@ -108,4 +108,4 @@ angular.module('beers.services', [])
     };
 
     return o;
-  });
+  }]);
