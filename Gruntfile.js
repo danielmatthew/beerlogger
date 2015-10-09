@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     concat: {
       dist: {
-        src: ['public_html/app/app.js', 'public_html/app/routes.js', ],
+        src: ['public_html/app/app.js'],
         dest: 'public_html/app/bundle.js'
       }
     },
