@@ -45,14 +45,25 @@ module.exports = function(grunt) {
         dest: 'public_html/app/bundle.min.js'
       }
     },
+
     useminPrepare: {
       html: 'public_html/app/views/index.html',
       options: {
-        dest: 'public_html/dist'
+        dest: 'public_html/dist',
+        flow: {
+          html: {
+            steps: {
+              js: ['concat', 'uglify']
+            }
+          }
+        }
       }
     },
+
     usemin: {
-      html: ['public_html/dist/index.html']
+      html: ['public_html/dist/index.html'],
+      css: ['/dist/css/{,*/}*.css'],
+      js: ['/dist/js/{,*/}*.js']
     }
   });
 
@@ -61,6 +72,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-surge');
 
   grunt.registerTask('build', [
     'useminPrepare',
