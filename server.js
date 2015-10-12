@@ -1,4 +1,5 @@
 // server.js
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 // modules ==============================================
 var express = require('express');
@@ -41,14 +42,20 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
 db.once('open', function() {
 
-  app.use(express.static(__dirname + '/public_html'));
+  if (app.get('env') === 'development') {
+    app.use(express.static(__dirname + '/src'));
+  }
+
+  if (app.get('env') === 'production') {
+    app.use(express.static(__dirname + '/dist'));
+  }
 
   // routes =============================================
   var apiRoutes = require('./routes')(app, express);
   app.use('/api', apiRoutes);
 
   app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname + '/public_html/app/views/index.html'));
+    res.sendFile(path.join(__dirname + '/src/app/views/index.html'));
   });
 
   // start app ==========================================
