@@ -1,3 +1,4 @@
+'use strict';
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -47,23 +48,14 @@ module.exports = function(grunt) {
     // },
 
     useminPrepare: {
-      html: 'src/app/views/index.html',
+      html: ['src/app/views/index.html'],
       options: {
         dest: 'dist',
-        flow: {
-          html: {
-            steps: {
-              js: ['concat', 'uglify']
-            }
-          }
-        }
       }
     },
 
     usemin: {
-      html: ['dist/index.html'],
-      css: ['dist/css/{,*/}*.css'],
-      js: ['dist/js/{,*/}*.js']
+      html: ['dist/index.html']
     }
   });
 
