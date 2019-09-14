@@ -44,7 +44,8 @@ angular.module('beers.controllers', ['beers.services', 'ui.bootstrap'])
 
     $scope.addBeer = function() {
       if ($scope.formData) {
-        Beer.add($scope.formData)
+        Beer
+          .add($scope.formData)
           .success(function(data) {
             $scope.numBeers++;
             $scope.message = data.message;
