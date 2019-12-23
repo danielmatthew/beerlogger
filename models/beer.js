@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-var BeerSchema = new mongoose.Schema({
+var BeerSchema = new Schema({
   name: String,
   style: String,
   brewer: String,
@@ -11,4 +11,4 @@ var BeerSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Beer', BeerSchema);
+export default model('Beer', BeerSchema);

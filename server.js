@@ -2,24 +2,24 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 // modules ==============================================
-var express = require('express');
-var bodyParser = require('body-parser');
-var morgan = require('morgan');
-var compression = require('compression');
-var mongoose = require('mongoose');
-var path = require('path');
+import express, { static } from 'express';
+import { json, urlencoded } from 'body-parser';
+import morgan from 'morgan';
+import compression from 'compression';
+import { connect, connection } from 'mongoose';
+import { join } from 'path';
 
 // configuration ========================================
-var db = require('./config');
+import db, { url, on, once } from './config';
 var port = process.env.PORT || 3000;
 
 var app = express();
 
 // parse application/json
-app.use(bodyParser.json());
+app.use(json());
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({
+app.use(urlencoded({
   extended: true
 }));
 
@@ -37,17 +37,17 @@ app.use(function(req, res, next) {
 });
 
 // connect to db
-mongoose.connect(db.url);
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'Connection error:'));
-db.once('open', function() {
+connect(url);
+var db = connection;
+on('error', console.error.bind(console, 'Connection error:'));
+once('open', function() {
 
   if (app.get('env') === 'development') {
-    app.use(express.static(__dirname + '/src'));
+    app.use(static(__dirname + '/src'));
   }
 
   if (app.get('env') === 'production') {
-    app.use(express.static(__dirname + '/dist'));
+    app.use(static(__dirname + '/dist'));
   }
 
   // routes =============================================
@@ -55,7 +55,7 @@ db.once('open', function() {
   app.use('/api', apiRoutes);
 
   app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname + '/src/app/views/index.html'));
+    res.sendFile(join(__dirname + '/src/app/views/index.html'));
   });
 
   // start app ==========================================
